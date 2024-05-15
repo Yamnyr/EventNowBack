@@ -169,6 +169,13 @@ class EvenementController extends AbstractController
     #[Route('/delete/{id}', name: 'app_evenement_delete', methods: ['DELETE'])]
     public function delete(Evenement $evenement, EntityManagerInterface $entityManager): Response
     {
+        // Supprimer les inscriptions associées aux dates de l'événement
+        foreach ($evenement->getDates() as $date) {
+            foreach ($date->getInscriptions() as $inscription) {
+                $entityManager->remove($inscription);
+            }
+        }
+
         // Supprimer les dates associées à l'événement
         foreach ($evenement->getDates() as $date) {
             $entityManager->remove($date);

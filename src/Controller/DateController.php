@@ -55,6 +55,11 @@ class DateController extends AbstractController
     public function show(DateRepository $dateRepository, $id): Response
     {
         $date = $dateRepository->find($id);
+
+        if (!$date) {
+            return $this->json(['message' => 'date inexistante'], 400);
+        }
+
         $datesData = [];
         $evenement = $date->getEvenement();
         $datesData[] = [
