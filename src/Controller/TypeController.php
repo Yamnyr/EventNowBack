@@ -29,10 +29,16 @@ class TypeController extends AbstractController
         foreach ($types as $type) {
             $typesdata[] = [
                 'id' => $type->getId(),
-                'email' => $type->getNom(),
+                'nom' => $type->getNom(),
             ];
         }
 
-        return $this->json($typesdata);
+        $response = new Response(json_encode($typesdata));
+        $response->headers->set('Content-Type', 'application/json');
+        // Autoriser les requêtes depuis localhost:3000
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+        return $response;
+
     }
 }

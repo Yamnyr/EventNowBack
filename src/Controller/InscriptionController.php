@@ -135,7 +135,6 @@ class InscriptionController extends AbstractController
             $entityManager->persist($inscription);
             $entityManager->flush();
 
-
             //TODO: il faut set la place_restante a -nombre d'inscrit en plus
         }
 
