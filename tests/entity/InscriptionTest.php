@@ -9,12 +9,18 @@ use PHPUnit\Framework\TestCase;
 
 class InscriptionTest extends TestCase
 {
+    /**
+     * Ce test vérifie que l'ID d'une nouvelle inscription est null.
+     */
     public function testGetId()
     {
         $inscription = new Inscription();
         $this->assertNull($inscription->getId());
     }
 
+    /**
+     * Ce test vérifie que l'utilisateur d'une inscription peut être correctement défini et récupéré.
+     */
     public function testUser()
     {
         $inscription = new Inscription();
@@ -23,14 +29,9 @@ class InscriptionTest extends TestCase
         $this->assertEquals($user, $inscription->getUser());
     }
 
-//    public function testDate()
-//    {
-//        $inscription = new Inscription();
-//        $date = new DateTime();
-//        $inscription->setDate($date);
-//        $this->assertEquals($date, $inscription->getDate());
-//    }
-
+    /**
+     * Ce test vérifie que le nombre de personnes d'une inscription peut être correctement défini et récupéré.
+     */
     public function testNombrePersonnes()
     {
         $inscription = new Inscription();
@@ -38,6 +39,9 @@ class InscriptionTest extends TestCase
         $this->assertEquals(5, $inscription->getNombrePersonnes());
     }
 
+    /**
+     * Ce test vérifie que le certificat d'âge requis d'une inscription peut être correctement défini et récupéré.
+     */
     public function testCertifAgeRequis()
     {
         $inscription = new Inscription();
@@ -46,6 +50,9 @@ class InscriptionTest extends TestCase
         $this->assertTrue($inscription->isCertifAgeRequis());
     }
 
+    /**
+     * Ce test vérifie que la date d'inscription peut être correctement définie et récupérée.
+     */
     public function testDateInscription()
     {
         $inscription = new Inscription();
