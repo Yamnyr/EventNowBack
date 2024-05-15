@@ -140,7 +140,13 @@ class InscriptionController extends AbstractController
         }
 
         // Retourner une réponse indiquant le succès de l'inscription
-        return $this->json(['message' => 'Inscription réussie']);
+
+        $response = new Response(json_encode(['message' => 'Inscription réussie']));
+        $response->headers->set('Content-Type', 'application/json');
+        // Autoriser les requêtes depuis localhost:3000
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+        return $response;
     }
 
 
