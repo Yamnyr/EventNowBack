@@ -38,7 +38,13 @@ class DateController extends AbstractController
                 'places_rest' => $date->getPlacesRestantes(),
             ];
         }
-        return $this->json($datesData);
+
+        $response = new Response(json_encode($datesData));
+        $response->headers->set('Content-Type', 'application/json');
+        // Autoriser les requêtes depuis localhost:3000
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+        return $response;
     }
 
     /*
@@ -57,10 +63,17 @@ class DateController extends AbstractController
             'evenement' => [
                 'id' => $evenement->getId(),
                 'nom' => $evenement->getNom(),
-                'lieu' => $evenement->getLieu()
+                'lieu' => $evenement->getLieu(),
+                'image' => $evenement->getImage()
             ],
             'places_rest' => $date->getPlacesRestantes(),
         ];
-        return $this->json($datesData);
+
+        $response = new Response(json_encode($datesData));
+        $response->headers->set('Content-Type', 'application/json');
+        // Autoriser les requêtes depuis localhost:3000
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+        return $response;
     }
 }
