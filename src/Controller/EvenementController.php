@@ -158,7 +158,13 @@ class EvenementController extends AbstractController
         $entityManager->flush();
 
         // Retourner une réponse indiquant le succès de l'ajout
-        return $this->json(['message' => 'Événement ajouté avec succès']);
+
+        $response = new Response(json_encode(['message' => 'Événement ajouté avec succès']));
+        $response->headers->set('Content-Type', 'application/json');
+        // Autoriser les requêtes depuis localhost:3000
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+
+        return $response;
     }
 
 
