@@ -135,6 +135,7 @@ class InscriptionController extends AbstractController
             $entityManager->persist($inscription);
             $entityManager->flush();
 
+            $inscription->getDate()->setPlacesRestantes($inscription->getDate()->setPlacesRestantes() - $data['nombre_pers'] );
             //TODO: il faut set la place_restante a -nombre d'inscrit en plus
         }
 
