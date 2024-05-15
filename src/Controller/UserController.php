@@ -48,7 +48,7 @@ class UserController extends AbstractController
         return $this->json($userData);
     }
 
-
+/*test*/
     #[Route('/getone/{id}', name: 'app_user_index', methods: ['GET'])]
     public function show(UserRepository $userRepository, $id): Response
     {
