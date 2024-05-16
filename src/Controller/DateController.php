@@ -23,7 +23,7 @@ class DateController extends AbstractController
     #[Route('/getall', name: 'app_dates_index', methods: ['GET'])]
     public function index(DateRepository $dateRepository): Response
     {
-        $dates = $dateRepository->findAll();
+        $dates = $dateRepository->findFutureDates();
         $datesData = [];
         foreach ($dates as $date) {
             $evenement = $date->getEvenement();

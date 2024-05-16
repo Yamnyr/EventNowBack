@@ -13,7 +13,7 @@ class InscriptionControllerTest extends WebTestCase
     public function testGetInscription()
     {
         $client = static::createClient();
-        $client->request('GET', 'http://127.0.0.1:8000/inscriptions/getone/1');
+        $client->request('GET', '/inscriptions/getone/1');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
@@ -25,15 +25,29 @@ class InscriptionControllerTest extends WebTestCase
     public function testAddInscription()
     {
         $client = static::createClient();
-        $client->request('POST', '/inscriptions/add', [], [], [], json_encode([
+
+        // Données de l'inscription à ajouter
+        $inscriptionData = [
             'user_id' => 1,
-            'date_id' => 1,
+            'date_id' => 2,
             'certif' => true,
             'nombre_pers' => 3
-        ]));
+        ];
 
+        // Effectuer une requête POST pour ajouter une inscription
+        $client->request('POST', '/inscriptions/add', [], [], [], json_encode($inscriptionData));
+
+        // Vérifier si la réponse a un code de statut 200 (OK)
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        // Vérifier si le type de contenu de la réponse est JSON
+        $this->assertResponseHeaderSame('Content-Type', 'application/json');
+
+        // Vérifier si la réponse contient un message d'inscription réussie
+        $responseData = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('Inscription réussie', $responseData['message']);
     }
+
 
     /**
      * Ce test vérifie que l'endpoint 'POST /inscriptions/add' retourne une erreur comme prévu lorsqu'on ajoute une inscription sans certificat.
@@ -44,7 +58,7 @@ class InscriptionControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('POST', '/inscriptions/add', [], [], [], json_encode([
             'user_id' => 1,
-            'date_id' => 1,
+            'date_id' => 2,
             'certif' => false,
             'nombre_pers' => 3
         ]));

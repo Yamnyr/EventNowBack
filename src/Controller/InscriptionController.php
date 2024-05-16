@@ -117,8 +117,6 @@ class InscriptionController extends AbstractController
         $dateNaissance = $user->getDateNaissance();
         $aujourdHui = new DateTime();
         $age = $aujourdHui->diff($dateNaissance)->y;
-        //TODO: gerer la gestion de place (les places restatntes sont stocké dans la table date
-
 
         if ($data['nombre_pers'] == 1 && $age > $date->getEvenement()->getAgeRequis()) {
             return $this->json(['message' => 'L\'utilisateur n\'a pas l\'âge requis pour participer à cet événement'], 400);
@@ -135,8 +133,7 @@ class InscriptionController extends AbstractController
             $entityManager->persist($inscription);
             $entityManager->flush();
 
-            $inscription->getDate()->setPlacesRestantes($inscription->getDate()->setPlacesRestantes() - $data['nombre_pers'] );
-            //TODO: il faut set la place_restante a -nombre d'inscrit en plus
+            $inscription->getDate()->setPlacesRestantes($inscription->getDate()->getPlacesRestantes() - $data['nombre_pers'] );
         }
 
         // Retourner une réponse indiquant le succès de l'inscription

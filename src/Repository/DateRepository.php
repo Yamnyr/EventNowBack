@@ -15,6 +15,17 @@ class DateRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Date::class);
     }
+    public function findFutureDates()
+    {
+        $currentDate = new \DateTime();
+
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.date >= :currentDate')
+            ->setParameter('currentDate', $currentDate)
+            ->orderBy('d.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
     //    /**
     //     * @return Date[] Returns an array of Date objects

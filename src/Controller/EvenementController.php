@@ -75,6 +75,10 @@ class EvenementController extends AbstractController
     {
         $evenement = $evenementRepository->find($id);
 
+        if (!$evenement) {
+            return $this->json(['message' => 'evenement inexistante'], 400);
+        }
+
         $datesData = [];
         foreach ($evenement->getDates() as $date) {
             $datesData[] = [
@@ -172,8 +176,12 @@ class EvenementController extends AbstractController
         http://127.0.0.1:8000/evenements/delete/3
     */
     #[Route('/delete/{id}', name: 'app_evenement_delete', methods: ['DELETE'])]
-    public function delete(Evenement $evenement, EntityManagerInterface $entityManager): Response
+    public function delete(Evenement $evenement = null, EntityManagerInterface $entityManager): Response
     {
+        if (!$evenement) {
+        return $this->json(['message' => 'evenement inexistant'], 400);
+        }
+
         // Supprimer les inscriptions associées aux dates de l'événement
         foreach ($evenement->getDates() as $date) {
             foreach ($date->getInscriptions() as $inscription) {
@@ -194,7 +202,6 @@ class EvenementController extends AbstractController
         return $this->json(['message' => 'Événement supprimé avec succès']);
     }
 
-
 /*
     PUT
     http://127.0.0.1:8000/evenements/annule/2
@@ -203,8 +210,13 @@ class EvenementController extends AbstractController
     }
     */
     #[Route('/annule/{id}', name: 'app_evenement_annule', methods: ['PUT'])]
-    public function cancelEvent(Evenement $evenement, Request $request, EntityManagerInterface $entityManager): Response
+    public function cancelEvent(Evenement $evenement = null, Request $request, EntityManagerInterface $entityManager): Response
     {
+
+        if (!$evenement) {
+            return $this->json(['message' => 'evenement inexistante'], 400);
+        }
+
         $data = json_decode($request->getContent(), true);
 
         $raisonAnnulation = isset($data['raison_annulation']) ? $data['raison_annulation'] : '';
