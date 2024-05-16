@@ -138,6 +138,13 @@ class EvenementController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
+        // Vérification de places_rest
+        foreach ($data['dates'] as $dateData) {
+            if ($dateData['places_rest'] > 7000) {
+                return $this->json(['message' => 'Le nombre de places restantes ne peut pas dépasser 7000'], 400);
+            }
+        }
+
         // Créer un nouvel événement
         $evenement = new Evenement();
         $evenement->setNom($data['nom']);
@@ -162,13 +169,13 @@ class EvenementController extends AbstractController
         $entityManager->flush();
 
         // Retourner une réponse indiquant le succès de l'ajout
-
         $response = new Response(json_encode(['message' => 'Événement ajouté avec succès']));
         $response->headers->set('Content-Type', 'application/json');
         $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
 
         return $response;
     }
+
 
 
     /*

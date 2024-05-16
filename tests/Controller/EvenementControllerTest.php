@@ -106,6 +106,48 @@ class EvenementControllerTest extends WebTestCase
 
     }
 
+
+
+    public function testAddEvenementWithhTooMembers()
+    {
+        $client = static::createClient();
+
+        // Données de l'événement à ajouter
+        $eventData = [
+            "nom" => "event562654",
+            "description" => "Description de l'événement",
+            "lieu" => "Lieu de l'événement",
+            "type" => 1,
+            "age_requis" => 16,
+            "image" => "lien_vers_image",
+            "dates" => [
+                [
+                    "date" => "2024-06-15",
+                    "places_rest" => 7001
+                ]
+            ]
+        ];
+
+        // Effectuer une requête POST pour ajouter l'événement
+        $client->request(
+            'POST',
+            '/evenements/add',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($eventData)
+        );
+
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+
+        $this->assertResponseHeaderSame('Content-Type', 'application/json');
+
+        $responseData = json_decode($client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('message', $responseData);
+        $this->assertEquals('Le nombre de places restantes ne peut pas dépasser 7000', $responseData['message']);
+
+    }
+
 //    /**
 //     * Ce test vérifie que l'endpoint 'DELETE /evenements/delete/{id}' fonctionne correctement.
 //     * On s'attend à une réponse réussie (HTTP 200) lorsqu'on supprime un événement.
