@@ -33,7 +33,9 @@ class DateController extends AbstractController
                 'evenement' => [
                     'id' => $evenement->getId(),
                     'nom' => $evenement->getNom(),
-                    'lieu' => $evenement->getLieu()
+                    'lieu' => $evenement->getLieu(),
+                    'annule' => $evenement->getAnnule(),
+                    'raison_annulation' => $evenement->getRaisonAnnulation(),
                 ],
                 'places_rest' => $date->getPlacesRestantes(),
             ];
@@ -69,7 +71,9 @@ class DateController extends AbstractController
                 'id' => $evenement->getId(),
                 'nom' => $evenement->getNom(),
                 'lieu' => $evenement->getLieu(),
-                'image' => $evenement->getImage()
+                'image' => $evenement->getImage(),
+                'annule' => $evenement->getAnnule(),
+                'raison_annulation' => $evenement->getRaisonAnnulation(),
             ],
             'places_rest' => $date->getPlacesRestantes(),
         ];
