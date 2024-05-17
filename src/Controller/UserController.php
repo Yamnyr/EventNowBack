@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/users')]
 class UserController extends AbstractController
@@ -48,7 +48,6 @@ class UserController extends AbstractController
         return $this->json($userData);
     }
 
-/*test*/
     #[Route('/getone/{id}', name: 'app_user_index', methods: ['GET'])]
     public function show(UserRepository $userRepository, $id): Response
     {
@@ -81,8 +80,33 @@ class UserController extends AbstractController
         return $this->json($userData);
     }
 
+    #[Route('/add', name: 'app_user_add', methods: ['POST'])]
+    public function addUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $data = json_decode($request->getContent(), true);
 
+        if (!$data) {
+            return $this->json(['message' => 'Invalid JSON'], Response::HTTP_BAD_REQUEST);
+        }
 
+        if (!isset($data['nom'], $data['prenom'], $data['email'], $data['password'], $data['date_naissance'])) {
+            return $this->json(['message' => 'Missing data'], Response::HTTP_BAD_REQUEST);
+        }
 
+        $user = new User();
+        $user->setNom($data['nom']);
+        $user->setPrenom($data['prenom']);
+        $user->setEmail($data['email']);
+        $user->setDateNaissance(new \DateTime($data['date_naissance']));
+        $user->setRoles(['ROLE_USER']);
 
+        // Encodage du mot de passe
+        $encodedPassword = $passwordHasher->hashPassword($user, $data['password']);
+        $user->setPassword($encodedPassword);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->json(['message' => 'Utilisateur créé avec succès']);
+    }
 }
