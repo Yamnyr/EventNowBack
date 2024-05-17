@@ -118,7 +118,7 @@ class InscriptionController extends AbstractController
         $aujourdHui = new DateTime();
         $age = $aujourdHui->diff($dateNaissance)->y;
 
-        if ($data['nombre_pers'] == 1 && $age > $date->getEvenement()->getAgeRequis()) {
+        if ($data['nombre_pers'] === 1 && $age < $date->getEvenement()->getAgeRequis()) {
             return $this->json(['message' => 'L\'utilisateur n\'a pas l\'âge requis pour participer à cet événement'], 400);
         } elseif ($data['nombre_pers'] > 1 && !$data['certif']) {
             return $this->json(['message' => 'La certification est requise pour chaque participant'], 400);
