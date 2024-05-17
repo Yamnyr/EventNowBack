@@ -22,8 +22,59 @@ class AppFixtures extends Fixture
     {
 
         $usersData = [
-            ['email' => 'user1@example.com', 'roles' => ['ROLE_USER'], 'date_naissance' => new \DateTime('1990-01-01'), 'nom' => 'User 1', 'prenom' => 'prenom 1'],
-            ['email' => 'user2@example.com', 'roles' => ['ROLE_USER'], 'date_naissance' => new \DateTime('1995-05-10'), 'nom' => 'User 2', 'prenom' => 'prenom 1'],
+            [
+                'email' => 'user1@example.com',
+                'roles' => ['ROLE_ADMIN'],
+                'date_naissance' => new \DateTime('1990-01-01'),
+                'password' => 'qwerty',
+                'nom' => 'User 1',
+                'prenom' => 'prenom 1'
+            ],
+
+            [
+                'email' => 'user2@example.com',
+                'roles' => ['ROLE_USER'],
+                'date_naissance' => new \DateTime('1995-06-10'),
+                'password' => 'azerty',
+                'nom' => 'User 2',
+                'prenom' => 'prenom 1'
+            ],
+
+            [
+                'email' => 'user3@example.com',
+                'roles' => ['ROLE_USER'],
+                'date_naissance' => new \DateTime('2001-11-10'),
+                'password' => 'azerty',
+                'nom' => 'User 2',
+                'prenom' => 'prenom 1'
+            ],
+
+            [
+                'email' => 'user4@example.com',
+                'roles' => ['ROLE_ADMIN'],
+                'date_naissance' => new \DateTime('1985-04-10'),
+                'password' => 'qwerty',
+                'nom' => 'User 2',
+                'prenom' => 'prenom 1'
+            ],
+
+            [
+                'email' => 'user5@example.com',
+                'roles' => ['ROLE_USER', 'ROLE_ADMIN'],
+                'date_naissance' => new \DateTime('20215-07-10'),
+                'password' => 'azerqwerty',
+                'nom' => 'User 2',
+                'prenom' => 'prenom 1'
+            ],
+
+            [
+                'email' => 'user6@example.com',
+                'roles' => ['ROLE_USER'],
+                'date_naissance' => new \DateTime('1999-02-10'),
+                'password' => 'azerty',
+                'nom' => 'User 2',
+                'prenom' => 'prenom 1'
+            ],
             // Add more users if needed
         ];
 
@@ -36,8 +87,8 @@ class AppFixtures extends Fixture
             $user->setPrenom($userData['prenom']);
 
             // Hash password
-            $hashedPassword = $this->password->hashPassword($user, 'test');
-            $user->setPassword($hashedPassword);
+            // $hashedPassword = $this->password->hashPassword($user, 'test');
+            $user->setPassword($userData['password']);
 
             $manager->persist($user);
             $this->addReference('user_' . $userData['email'], $user);
@@ -60,7 +111,7 @@ class AppFixtures extends Fixture
         }
 
         $evenementsData = [
-            ['type' => $this->getReference('type_concert'), 'nom' => 'Concert Rock', 'description' => 'Description du concert rock', 'lieu' => 'Lieu du concert', 'annule' => false, 'raison_annulation' => null, 'age_requis' => 18, 'image' => 'image1.jpg'],
+            ['type' => $this->getReference('type_concert'), 'nom' => 'Concert Rock', 'description' => 'Description du concert rock', 'lieu' => 'Lieu du concert', 'annule' => false, 'raison_annulation' => null, 'age_requis' => 18, 'image' => 'https:/via.placeholder.com/96x128'],
         ];
 
         foreach ($evenementsData as $evenementData) {

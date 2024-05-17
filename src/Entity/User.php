@@ -122,13 +122,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
-    {
+    {   
         return $this->password;
     }
 
     public function setPassword(string $password): static
     {
-        $this->password = $password;
+        $this->password = md5($password);
 
         return $this;
     }

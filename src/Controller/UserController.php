@@ -39,6 +39,7 @@ class UserController extends AbstractController
                 'nom' => $user->getNom(),
                 'prenom' => $user->getPrenom(),
                 'email' => $user->getEmail(),
+                'password'=> $user->getPassword(),
                 'role' => $user->getRoles(),
                 'date_naissance' => $user->getDateNaissance(),
                 'inscriptions' => $inscriptionData,
